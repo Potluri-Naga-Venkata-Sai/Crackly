@@ -106,17 +106,30 @@ function InterviewContent() {
   // Proctoring
   useEffect(() => {
     if (view !== "interview" || isTerminated || isGeneratingFeedback) return;
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        setViolations((prev) => {
-          const newViolations = prev + 1;
-          if (newViolations >= 3) setIsTerminated(true);
-          return newViolations;
-        });
-      }
+    let lastViolationTime = 0;
+    const handleViolation = () => {
+      const now = Date.now();
+      if (now - lastViolationTime < 2000) return; // debounce to prevent double-triggering
+      lastViolationTime = now;
+      
+      setViolations((prev) => {
+        const newViolations = prev + 1;
+        if (newViolations >= 3) setIsTerminated(true);
+        return newViolations;
+      });
     };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+    
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) handleViolation();
+    });
+    window.addEventListener("blur", handleViolation);
+    
+    return () => {
+      document.removeEventListener("visibilitychange", () => {
+        if (document.hidden) handleViolation();
+      });
+      window.removeEventListener("blur", handleViolation);
+    };
   }, [view, isTerminated, isGeneratingFeedback]);
 
   // Handle auto-submit when answering timer hits 0
@@ -585,7 +598,13 @@ function InterviewContent() {
   const currentQuestionNum = messages.filter(m => m.role === "assistant").length;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] bg-muted relative">
+    <div 
+      className="flex flex-col h-[calc(100vh-4rem)] bg-muted relative select-none"
+      onCopy={(e) => e.preventDefault()}
+      onPaste={(e) => e.preventDefault()}
+      onCut={(e) => e.preventDefault()}
+      onContextMenu={(e) => e.preventDefault()}
+    >
       <div className="absolute top-6 right-6 w-48 aspect-video bg-background rounded-xl overflow-hidden border-2 border-border shadow-xl z-50">
         <Webcam audio={false} mirrored className="w-full h-full object-cover" />
         <div className="absolute top-2 right-2 flex gap-1"><div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" /></div>
@@ -701,6 +720,7 @@ function InterviewContent() {
             <Input 
               value={input} onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+              onPaste={(e) => { e.preventDefault(); alert("Pasting answers is not allowed during the interview."); }}
               placeholder={isListening ? "Listening... Speak your answer now." : isInputDisabled ? "Please wait..." : "Type your response here or use the microphone..."}
               disabled={isInputDisabled} className="flex-1 bg-card border-border/50 focus-visible:ring-purple-500 h-14 text-lg rounded-2xl px-6"
             />

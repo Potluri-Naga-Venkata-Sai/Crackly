@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Editor from "@monaco-editor/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Clock, Play, Code2, CheckCircle2, XCircle, ArrowLeft, Loader2, Sparkles, AlertCircle, FileText, Bot, Bookmark, BookmarkCheck, CameraOff, Check, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Clock, Play, Code2, CheckCircle2, XCircle, ArrowLeft, Loader2, Sparkles, AlertCircle, FileText, Bot, Bookmark, BookmarkCheck, CameraOff, Check, X, ChevronLeft, ChevronRight, Send } from "lucide-react";
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
@@ -23,6 +23,9 @@ export default function CodingPracticePage() {
   const [bookmarked, setBookmarked] = useState(false);
   const [cameraError, setCameraError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const [violations, setViolations] = useState(0);
+  const [isTerminated, setIsTerminated] = useState(false);
 
   const [activeTab, setActiveTab] = useState<number>(0);
   const [isSettingUp, setIsSettingUp] = useState(true);
@@ -103,47 +106,41 @@ export default function CodingPracticePage() {
     };
     startCamera();
 
-    // Anti-Cheat: Block Global Keyboard Shortcuts
-    const blockShortcuts = (e: KeyboardEvent) => {
-      // Block F12
-      if (e.key === "F12") {
-        e.preventDefault();
-      }
-      // Block Ctrl+Shift+I / Cmd+Option+I (Inspect)
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "I" || e.key === "i")) {
-        e.preventDefault();
-      }
-      // Block Ctrl+C / Cmd+C (Copy)
-      if ((e.ctrlKey || e.metaKey) && (e.key === "C" || e.key === "c")) {
-        e.preventDefault();
-      }
-      // Block Ctrl+V / Cmd+V (Paste)
-      if ((e.ctrlKey || e.metaKey) && (e.key === "V" || e.key === "v")) {
-        e.preventDefault();
-      }
-    };
-
-    // Anti-Cheat: Block Clipboard Actions
-    const blockClipboard = (e: ClipboardEvent) => {
-      e.preventDefault();
-    };
-
-    // Anti-Cheat disabled for testing purposes
-    // window.addEventListener("keydown", blockShortcuts);
-    // window.addEventListener("copy", blockClipboard);
-    // window.addEventListener("paste", blockClipboard);
-    // window.addEventListener("cut", blockClipboard);
-
     return () => {
       if (stream) {
-        stream.getTracks().forEach(track => track.stop());
+        stream.getTracks().forEach((track) => track.stop());
       }
-      // window.removeEventListener("keydown", blockShortcuts);
-      // window.removeEventListener("copy", blockClipboard);
-      // window.removeEventListener("paste", blockClipboard);
-      // window.removeEventListener("cut", blockClipboard);
     };
-  }, [router]);
+  }, []);
+
+  // Proctoring
+  useEffect(() => {
+    if (isTerminated) return;
+    let lastViolationTime = 0;
+    const handleViolation = () => {
+      const now = Date.now();
+      if (now - lastViolationTime < 2000) return;
+      lastViolationTime = now;
+      
+      setViolations((prev) => {
+        const newViolations = prev + 1;
+        if (newViolations >= 3) setIsTerminated(true);
+        return newViolations;
+      });
+    };
+    
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) handleViolation();
+    });
+    window.addEventListener("blur", handleViolation);
+    
+    return () => {
+      document.removeEventListener("visibilitychange", () => {
+        if (document.hidden) handleViolation();
+      });
+      window.removeEventListener("blur", handleViolation);
+    };
+  }, [isTerminated]);
 
   const handleLanguageChange = (lang: string) => {
     setLanguage(lang);
@@ -244,12 +241,24 @@ export default function CodingPracticePage() {
     return <div className="flex-1 flex items-center justify-center h-full"><Loader2 className="animate-spin text-muted-foreground" /></div>;
   }
 
-
+  if (isTerminated) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center p-8 text-center h-[calc(100vh-4rem)] bg-muted">
+        <AlertCircle className="w-16 h-16 text-red-500 mb-6" />
+        <h1 className="text-3xl font-bold text-foreground mb-2">Coding Session Terminated</h1>
+        <p className="text-muted-foreground mb-8 max-w-md">We detected multiple violations (tab switching). To maintain integrity, the session has been forcefully ended.</p>
+        <Button onClick={() => router.push("/coding")} className="bg-red-600 hover:bg-red-700 text-foreground font-bold h-12 px-8">Return to Dashboard</Button>
+      </div>
+    );
+  }
 
   return (
     <div 
       className="flex flex-col h-[calc(100vh-4rem)] p-4 gap-4 bg-muted text-foreground select-none relative"
       onContextMenu={(e) => e.preventDefault()}
+      onCopy={(e) => e.preventDefault()}
+      onPaste={(e) => e.preventDefault()}
+      onCut={(e) => e.preventDefault()}
     >
       <div className="flex justify-between items-center px-2 shrink-0">
         <div className="flex items-center gap-4">
@@ -298,6 +307,11 @@ export default function CodingPracticePage() {
           )}
         </div>
         <div className="flex items-center gap-3">
+          {violations > 0 && (
+            <div className="bg-red-500/10 text-red-500 px-3 py-1 rounded-full text-xs font-bold border border-red-500/20 mr-2">
+              Violations: {violations}/3
+            </div>
+          )}
           <Button 
             size="sm" 
             onClick={submitCode} 
