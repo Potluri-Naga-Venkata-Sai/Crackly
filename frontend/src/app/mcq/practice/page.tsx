@@ -77,6 +77,7 @@ export default function MCQPracticePage() {
     const isCorrect = selectedOption === problem.correct_answer;
     
     // Save submission to local storage
+    try {
       const submissions = JSON.parse(localStorage.getItem("mcq_submissions") || "[]");
       const newSubmission = {
         id: Date.now().toString(),
