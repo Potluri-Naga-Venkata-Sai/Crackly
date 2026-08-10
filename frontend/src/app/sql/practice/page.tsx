@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { logActivity, checkTrackCompletion } from "@/lib/activity-tracker";
 import { addBookmark, removeBookmark, isBookmarked } from "@/lib/bookmark-tracker";
+import { saveSubmissionLocallyAndToCloud } from "@/lib/supabase";
 
 export default function CodingPracticePage() {
   const router = useRouter();
@@ -112,7 +113,7 @@ export default function CodingPracticePage() {
     const newAttempts = attempts + 1;
     setAttempts(newAttempts);
     try {
-        const res = await fetch("http://localhost:8000/api/sql/review", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/sql/review`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -126,36 +127,25 @@ export default function CodingPracticePage() {
         const data = await res.json();
         setReviewData(data.feedback);
         
-        // Save submission to local storage (Deduplicated)
         const submissions = JSON.parse(localStorage.getItem("sql_submissions") || "[]");
-        const existingIdx = submissions.findIndex((s: any) => s.problemTitle === problem.title);
-        
-        const finalCodeToSave = data.is_correct ? code : (data.optimal_code || code);
-        
-        const newSub = {
-            id: problem.title,
+        const newSubmission = {
+            id: Date.now().toString(),
             problemTitle: problem.title,
             problemData: problem,
             language,
             code: finalCodeToSave,
-            is_ai_code: !data.is_correct && !!data.optimal_code,
+            score: data.is_correct ? 100 : 0,
             timestamp: new Date().toISOString()
         };
 
-        if (existingIdx >= 0) {
-            submissions[existingIdx] = newSub;
-        } else {
-            submissions.unshift(newSub);
-        }
-        
-        localStorage.setItem("sql_submissions", JSON.stringify(submissions));
+        await saveSubmissionLocallyAndToCloud("sql", newSubmission);
 
         logActivity({
             module: "Coding",
             title: "Coding Challenge Submitted",
             description: `Submitted solution for ${problem.title} in ${language}.`,
         });
-        checkTrackCompletion("sql", trackQuestions, submissions);
+        checkTrackCompletion("sql", trackQuestions, [newSubmission, ...submissions]);
     } catch (e) {
         console.error("Failed to evaluate code optimally", e);
         alert("Failed to review code.");

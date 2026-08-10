@@ -71,7 +71,7 @@ async def generate_company_question(request: GenerateRequest):
     prompt = f"""
     You are an expert technical interviewer.
     Your task is to {topic_instruction}
-    If '{request.company_name}' is a known company (like Google, Amazon, Meta, TCS, Infosys, etc.), tailor the questions to their typical interview style. If it is not a well-known company, just provide standard high-quality interview questions.
+    If '{request.company_name}' is a known company (like Apple, Google, Amazon, Meta, TCS, Infosys, etc.), tailor the questions to their typical interview style. If it is not a well-known company, just provide standard high-quality interview questions.
     Order the questions strictly by the number of times they have been asked, in descending order (most frequently asked first).
     Order the questions strictly by the number of times they have been asked, in descending order (most frequently asked first).
     CRITICAL: You MUST strictly ensure that the Examples you generate accurately reflect all edge cases and rules mentioned in the Description. Do not create examples that contradict the rules.

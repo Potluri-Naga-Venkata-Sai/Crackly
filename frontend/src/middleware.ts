@@ -32,20 +32,26 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
   // Protected routes
   const protectedRoutes = ['/interviews', '/practice', '/challenge', '/dashboard', '/coding', '/sql', '/mcq', '/mixed', '/aptitude']
   const isProtectedRoute = protectedRoutes.some((route) => request.nextUrl.pathname.startsWith(route))
+  const isLoginRoute = request.nextUrl.pathname.startsWith('/login')
+
+  // Skip getUser on completely public routes to improve performance
+  if (!isProtectedRoute && !isLoginRoute) {
+    return response
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   if (isProtectedRoute && !user) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
   // If user is logged in and tries to access login page, redirect to dashboard
-  if (user && request.nextUrl.pathname.startsWith('/login')) {
+  if (user && isLoginRoute) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 

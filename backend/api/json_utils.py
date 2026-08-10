@@ -18,4 +18,14 @@ def extract_and_parse_json(raw_content: str):
     if start_idx != -1 and end_idx != -1 and end_idx >= start_idx:
         raw_content = raw_content[start_idx:end_idx+1]
         
-    return json.loads(raw_content)
+    data = json.loads(raw_content)
+    
+    if isinstance(data, dict):
+        if "error" in data:
+            return data
+        for val in data.values():
+            if isinstance(val, list):
+                return val
+        
+    return data
+

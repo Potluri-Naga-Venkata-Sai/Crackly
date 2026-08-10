@@ -17,13 +17,7 @@ async def generate_tools_mcq(request: GenerateRequest):
     
     prompt = f"""
     You are an expert DevOps engineer and technical interviewer.
-    First, evaluate the company name: '{request.company_name}'. 
-    Validate strictly if this is a REAL, well-known tech or corporate company. If it is a person's name (like 'varshith', 'john'), a random word, a gibberish string, or fake, return exactly this JSON:
-    {{
-        "error": "Invalid company name. Please provide a real company."
-    }}
-    
-    HOWEVER, if it is a real company, you MUST generate exactly 20 distinct, highly realistic Developer Tools / DevOps multiple-choice questions asked by {request.company_name} regarding the tool: {request.topic}.
+    Assume '{request.company_name}' is a valid company name. You MUST generate exactly 20 distinct, highly realistic Developer Tools / DevOps multiple-choice questions asked by {request.company_name} regarding the tool: {request.topic}.
     If the topic is "Stream", tailor the tool questions specifically for a {request.program} role context.
     Tools can include Git, Docker, Kubernetes, Jenkins, AWS, etc.
     Order the questions strictly by frequency (most frequently asked first).

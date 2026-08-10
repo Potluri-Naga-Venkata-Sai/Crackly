@@ -11,7 +11,7 @@ import { logActivity, checkTrackCompletion } from "@/lib/activity-tracker";
 import { addBookmark, removeBookmark, isBookmarked } from "@/lib/bookmark-tracker";
 import { saveSubmissionLocallyAndToCloud } from "@/lib/supabase";
 
-export default function CompanyPracticePage() {
+export default function TheoryPracticePage() {
   const router = useRouter();
   const [problem, setProblem] = useState<any>(null);
   const [answer, setAnswer] = useState("");
@@ -31,7 +31,7 @@ export default function CompanyPracticePage() {
 
   useEffect(() => {
     const stored = sessionStorage.getItem("current_subjective_problem");
-    const track = sessionStorage.getItem("company_track");
+    const track = sessionStorage.getItem("theory_track");
     if (stored) {
       try {
         const parsedProblem = JSON.parse(stored);
@@ -69,7 +69,7 @@ export default function CompanyPracticePage() {
       const data = await res.json();
       setResult(data);
       
-      const submissions = JSON.parse(localStorage.getItem("company_submissions") || "[]");
+      const submissions = JSON.parse(localStorage.getItem("theory_submissions") || "[]");
       const newSubmission = {
         id: Date.now().toString(),
         problemTitle: problem.title,
@@ -80,15 +80,15 @@ export default function CompanyPracticePage() {
         timestamp: new Date().toISOString()
       };
       
-      await saveSubmissionLocallyAndToCloud("company", newSubmission);
+      await saveSubmissionLocallyAndToCloud("theory", newSubmission);
       
       logActivity({
-        module: "Company Fit",
+        module: "Theory",
         title: "Behavioral Answer Evaluated",
         score: `${data.score}/10`,
         description: `Practiced STAR method for ${problem.title}.`
       });
-        checkTrackCompletion("company", trackQuestions, [newSubmission, ...submissions]);
+        checkTrackCompletion("theory", trackQuestions, [newSubmission, ...submissions]);
     } catch (err) {
       alert("Failed to evaluate behavioral answer");
     } finally {
@@ -135,7 +135,7 @@ export default function CompanyPracticePage() {
               } else {
                 addBookmark({
                   id: problem.title,
-                  module: "Company Fit",
+                  module: "Theory",
                   title: problem.title,
                   path: "/company/practice",
                   problemData: problem

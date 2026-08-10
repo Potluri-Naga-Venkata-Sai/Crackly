@@ -9,6 +9,7 @@ import { ArrowLeft, Send, Loader2, Target, CheckCircle2, AlertCircle, Bookmark, 
 import { addBookmark, removeBookmark, isBookmarked } from "@/lib/bookmark-tracker";
 import { cn } from "@/lib/utils";
 import { checkTrackCompletion } from "@/lib/activity-tracker";
+import { saveSubmissionLocallyAndToCloud } from "@/lib/supabase";
 
 export default function SubjectivePracticePage() {
   const router = useRouter();
@@ -53,7 +54,7 @@ export default function SubjectivePracticePage() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/evaluate", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/evaluate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
@@ -70,7 +71,7 @@ export default function SubjectivePracticePage() {
 
       try {
         const submissions = JSON.parse(localStorage.getItem("projects_submissions") || "[]");
-        submissions.unshift({
+        const newSubmission = {
           id: Date.now().toString(),
           problemTitle: problem.title,
           problemData: problem,
@@ -78,10 +79,11 @@ export default function SubjectivePracticePage() {
           score: data.score,
           feedback: data.feedback,
           timestamp: new Date().toISOString()
-        });
-        localStorage.setItem("projects_submissions", JSON.stringify(submissions));
+        };
         
-        checkTrackCompletion("projects", trackQuestions, submissions);
+        saveSubmissionLocallyAndToCloud("projects", newSubmission);
+        
+        checkTrackCompletion("projects", trackQuestions, [newSubmission, ...submissions]);
       } catch (e) {
         console.error("Failed to save submission");
       }

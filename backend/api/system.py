@@ -16,13 +16,7 @@ async def generate_system_design(request: GenerateRequest):
     
     prompt = f"""
     You are an expert Principal Engineer conducting a System Design interview.
-    First, evaluate the company name: '{request.company_name}'. 
-    Validate strictly if this is a REAL, well-known tech or corporate company. If it is a person's name (like 'varshith', 'john'), a random word, a gibberish string, or fake, return exactly this JSON:
-    {{
-        "error": "Invalid company name. Please provide a real company."
-    }}
-    
-    HOWEVER, if it is a real company, you MUST generate exactly 3 distinct, highly realistic System Design (HLD/LLD) interview questions asked by {request.company_name}.
+    Assume '{request.company_name}' is a valid company name. You MUST generate exactly 20 distinct, highly realistic System Design (HLD/LLD) interview questions asked by {request.company_name}.
     
     Provide the response strictly as a JSON array of objects with the following schema:
     [

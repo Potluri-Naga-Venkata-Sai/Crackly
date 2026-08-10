@@ -17,13 +17,7 @@ async def generate_english_mcq(request: GenerateRequest):
     
     prompt = f"""
     You are an expert technical recruiter and English language evaluator.
-    First, evaluate the company name: '{request.company_name}'. 
-    Validate strictly if this is a REAL, well-known tech or corporate company. If it is a person's name (like 'varshith', 'john'), a random word, a gibberish string, or fake, return exactly this JSON:
-    {{
-        "error": "Invalid company name. Please provide a real company."
-    }}
-    
-    HOWEVER, if it is a real company, you MUST generate exactly 20 distinct, highly realistic {request.topic} (English/Verbal) multiple-choice questions asked by {request.company_name}.
+    Assume '{request.company_name}' is a valid company name. You MUST generate exactly 20 distinct, highly realistic {request.topic} (English/Verbal) multiple-choice questions asked by {request.company_name}.
     If the topic is "Stream", tailor the English/Verbal questions specifically for a {request.program} role context.
     Topics can include Grammar, Reading Comprehension, Synonyms/Antonyms, or Sentence Correction.
     Order the questions strictly by frequency (most frequently asked first).

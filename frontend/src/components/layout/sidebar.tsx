@@ -28,7 +28,7 @@ import { supabase } from "@/lib/supabase";
 const menuItems = [
   { name: "Overview", href: "/dashboard", icon: Home },
   { name: "Daily Prep", href: "/daily-prep", icon: Sparkles },
-  { name: "Announcements", href: "/announcements", icon: Bell },
+  { name: "Jobs", href: "/announcements", icon: Briefcase },
   { name: "Settings", href: "/settings", icon: Wrench },
 ];
 

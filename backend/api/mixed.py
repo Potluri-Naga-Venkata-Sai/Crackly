@@ -16,13 +16,8 @@ async def generate_mixed_assessment(request: GenerateRequest):
     
     prompt = f"""
     You are an expert technical interviewer.
-    First, evaluate the company name: '{request.company_name}'. 
-    Validate strictly if this is a REAL, well-known tech or corporate company. If it is a person's name (like 'varshith', 'john'), a random word, a gibberish string, or fake, return exactly this JSON:
-    {{
-        "error": "Invalid company name. Please provide a real company."
-    }}
-    
-    If it is a valid company, generate an exact 20-question mixed assessment test for a {request.program} candidate at '{request.company_name}'.
+    Assume '{request.company_name}' is a valid company name.
+    Generate an exact 20-question mixed assessment test for a {request.program} candidate at '{request.company_name}'.
     The test must include a mix of Aptitude, Coding Theory, Logic, and System Design questions.:
     
     SECTION 1: Coding

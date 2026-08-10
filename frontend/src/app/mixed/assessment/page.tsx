@@ -125,7 +125,7 @@ export default function MixedAssessmentPage() {
         }
 
         try {
-          const res = await fetch("http://localhost:8000/api/dsa/review", {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/dsa/review`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -166,7 +166,7 @@ export default function MixedAssessmentPage() {
         id: Date.now().toString(),
         company: sessionStorage.getItem("mixed_assessment_company"),
         score: currentScore,
-        maxScore: questions.filter(q => q.type === "mcq").length * 10,
+        maxScore: (Array.isArray(questions) ? questions : []).filter(q => q.type === "mcq").length * 10,
         codingResults,
         timestamp: new Date().toISOString()
     });
@@ -190,7 +190,7 @@ export default function MixedAssessmentPage() {
     
     try {
       const code = answers[currentIndex] || "";
-      const res = await fetch("http://localhost:8000/api/dsa/review", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/dsa/review`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -224,7 +224,7 @@ export default function MixedAssessmentPage() {
           
           <div className="bg-[#18181b] border border-border/50 rounded-xl p-8 mb-8 inline-block min-w-[300px]">
             <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-500 mb-4">Aptitude Score</h3>
-            <div className="text-6xl font-bold text-emerald-400 mb-2">{score} <span className="text-2xl text-zinc-600">/ {questions.filter(q => q.type === "mcq").length * 10}</span></div>
+            <div className="text-6xl font-bold text-emerald-400 mb-2">{score} <span className="text-2xl text-zinc-600">/ {(Array.isArray(questions) ? questions : []).filter(q => q.type === "mcq").length * 10}</span></div>
           </div>
         </div>
 

@@ -56,7 +56,7 @@ export default function MixedPage() {
         payload.program = program;
       }
       
-      const res = await fetch("http://localhost:8000/api/mixed/generate", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/mixed/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -89,7 +89,7 @@ export default function MixedPage() {
     formData.append("program", program);
 
     try {
-      const res = await fetch("http://localhost:8000/api/mixed/generate-resume", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/mixed/generate-resume`, {
         method: "POST",
         body: formData,
       });

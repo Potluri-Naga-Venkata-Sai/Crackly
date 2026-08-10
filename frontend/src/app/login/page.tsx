@@ -59,8 +59,7 @@ export default function LoginPage() {
         }
       }
 
-      router.push("/dashboard");
-      router.refresh();
+      window.location.href = "/dashboard";
     } catch (err: any) {
       setError(err.message || "An error occurred during login.");
     } finally {

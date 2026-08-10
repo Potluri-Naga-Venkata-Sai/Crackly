@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Send, ArrowLeft, Loader2, CheckCircle2, XCircle, Bookmark, BookmarkCheck, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useProgram } from "@/context/ProgramContext";
 import { cn } from "@/lib/utils";
 import { logActivity, checkTrackCompletion } from "@/lib/activity-tracker";
 import { addBookmark, removeBookmark, isBookmarked } from "@/lib/bookmark-tracker";
+import { saveSubmissionLocallyAndToCloud } from "@/lib/supabase";
 
 export default function AptitudePracticePage() {
   const router = useRouter();
@@ -58,18 +60,19 @@ export default function AptitudePracticePage() {
     // Save submission to local storage
     try {
       const submissions = JSON.parse(localStorage.getItem("aptitude_submissions") || "[]");
-      submissions.unshift({
+      const newSubmission = {
         id: Date.now().toString(),
-        problemTitle: problem.title,
+        problemTitle: problem.title || problem.question,
         problemData: problem,
         selectedOption,
         isCorrect,
-        score: isCorrect ? 100 : 0, // 100 for correct, 0 for incorrect
+        score: isCorrect ? 100 : 0,
         timestamp: new Date().toISOString()
-      });
-      localStorage.setItem("aptitude_submissions", JSON.stringify(submissions));
+      };
+
+      saveSubmissionLocallyAndToCloud("aptitude", newSubmission);
       
-      checkTrackCompletion("aptitude", trackQuestions, submissions);
+      checkTrackCompletion("aptitude", trackQuestions, [newSubmission, ...submissions]);
     } catch (e) {
       console.error("Failed to save submission");
     }

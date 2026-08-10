@@ -80,7 +80,7 @@ export function ResumeUpload() {
     }
 
     try {
-      const res = await fetch("http://localhost:8000/api/resume/prepare", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume/prepare`, {
         method: "POST",
         body: formData,
       });

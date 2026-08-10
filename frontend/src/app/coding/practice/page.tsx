@@ -4,13 +4,14 @@ import { useState, useEffect, useRef } from "react";
 import Editor from "@monaco-editor/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Play, Send, Terminal, CheckCircle2, ArrowLeft, Loader2, XCircle, Bookmark, BookmarkCheck, CameraOff, Sparkles, Check, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Clock, Play, Code2, CheckCircle2, XCircle, ArrowLeft, Loader2, Sparkles, AlertCircle, FileText, Bot, Bookmark, BookmarkCheck, CameraOff, Check, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { logActivity, checkTrackCompletion } from "@/lib/activity-tracker";
 import { addBookmark, removeBookmark, isBookmarked } from "@/lib/bookmark-tracker";
+import { saveSubmissionLocallyAndToCloud } from "@/lib/supabase";
 
 export default function CodingPracticePage() {
   const router = useRouter();
@@ -165,7 +166,7 @@ export default function CodingPracticePage() {
     setAttempts(newAttempts);
     
     try {
-        const res = await fetch("http://localhost:8000/api/dsa/review", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/dsa/review`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -179,36 +180,25 @@ export default function CodingPracticePage() {
         const data = await res.json();
         setReviewData(data.feedback);
         
-        // Save submission to local storage (Deduplicated)
         const submissions = JSON.parse(localStorage.getItem("coding_submissions") || "[]");
-        const existingIdx = submissions.findIndex((s: any) => s.problemTitle === problem.title);
-        
-        const finalCodeToSave = data.is_correct ? code : (data.optimal_code || code);
-        
-        const newSub = {
-            id: problem.title, // use problem title as ID to enforce uniqueness
-            problemTitle: problem.title,
-            problemData: problem,
-            language,
-            code: finalCodeToSave,
-            is_ai_code: !data.is_correct && !!data.optimal_code,
-            timestamp: new Date().toISOString()
+        const newSubmission = {
+          id: Date.now().toString(),
+          problemTitle: problem.title,
+          problemData: problem,
+          language: language,
+          code: code,
+          score: data.is_correct ? 100 : 0,
+          timestamp: new Date().toISOString()
         };
 
-        if (existingIdx >= 0) {
-            submissions[existingIdx] = newSub;
-        } else {
-            submissions.unshift(newSub);
-        }
-        
-        localStorage.setItem("coding_submissions", JSON.stringify(submissions));
+        await saveSubmissionLocallyAndToCloud("coding", newSubmission);
 
         logActivity({
             module: "Coding",
             title: "Coding Challenge Submitted",
             description: `Submitted solution for ${problem.title} in ${language}.`,
         });
-        checkTrackCompletion("coding", trackQuestions, submissions);
+        checkTrackCompletion("coding", trackQuestions, [newSubmission, ...submissions]);
     } catch (e) {
         console.error("Failed to evaluate code optimally", e);
         alert("Failed to review code.");

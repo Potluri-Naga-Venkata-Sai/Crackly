@@ -208,7 +208,7 @@ function InterviewContent() {
       const formData = new FormData();
       formData.append("file", resumeFile);
       try {
-        const res = await fetch("http://localhost:8000/api/resume/extract-text", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume/extract-text`, {
           method: "POST", body: formData
         });
         if (res.ok) {
@@ -228,7 +228,7 @@ function InterviewContent() {
     
     try {
       const payload = { company: targetCompany, role: targetRole, resume_text: extractedText, program, messages: [{ role: "user", content: "Hello! I am ready to begin the interview." }] };
-      const res = await fetch("http://localhost:8000/api/interview/chat", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/interview/chat`, {
         method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload),
       });
       const data = await res.json();
@@ -263,7 +263,7 @@ function InterviewContent() {
     window.speechSynthesis.cancel();
     
     try {
-      const res = await fetch("http://localhost:8000/api/interview/feedback", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/interview/feedback`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ company, role, program, messages: finalMessages })
@@ -327,7 +327,7 @@ function InterviewContent() {
     
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:8000/api/interview/chat", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/interview/chat`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ company, role, program, resume_text: resumeText, messages: newMessages }),
       });

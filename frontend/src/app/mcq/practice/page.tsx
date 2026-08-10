@@ -8,6 +8,7 @@ import { Send, ArrowLeft, Loader2, CheckCircle2, XCircle, Lightbulb, Clock, Chev
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { saveSubmissionLocallyAndToCloud } from "@/lib/supabase";
 
 export default function MCQPracticePage() {
   const router = useRouter();
@@ -76,9 +77,8 @@ export default function MCQPracticePage() {
     const isCorrect = selectedOption === problem.correct_answer;
     
     // Save submission to local storage
-    try {
       const submissions = JSON.parse(localStorage.getItem("mcq_submissions") || "[]");
-      submissions.unshift({
+      const newSubmission = {
         id: Date.now().toString(),
         problemTitle: problem.title,
         problemData: problem,
@@ -86,9 +86,10 @@ export default function MCQPracticePage() {
         isCorrect,
         score: isCorrect ? 100 : 0,
         timestamp: new Date().toISOString()
-      });
-      localStorage.setItem("mcq_submissions", JSON.stringify(submissions));
-      checkTrackCompletion("mcq", trackQuestions, submissions);
+      };
+      
+      saveSubmissionLocallyAndToCloud("mcq", newSubmission);
+      checkTrackCompletion("mcq", trackQuestions, [newSubmission, ...submissions]);
     } catch (e) {
       console.error("Failed to save submission");
     }

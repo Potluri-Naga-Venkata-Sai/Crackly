@@ -19,12 +19,7 @@ async def generate_aptitude_questions(request: GenerateRequest):
     
     prompt = f"""
     You are an expert technical recruiter and interviewer. 
-    First, evaluate the company name: '{request.company_name}'. 
-    Validate strictly if this is a REAL, well-known tech or corporate company. If it is a person's name (like 'varshith', 'john'), a random word, a gibberish string, or fake, return exactly this JSON:
-    {{
-        "error": "Invalid company name. Please provide a real company."
-    }}
-    HOWEVER, if '{request.company_name}' is a real company (like Google, Amazon, Meta, TCS, Infosys, etc.), you MUST generate a comprehensive list of exactly 20 distinct, realistic, previous-year {request.topic} aptitude/reasoning questions asked by {request.company_name} for a {request.program} candidate.
+    Assume '{request.company_name}' is a valid company name. You MUST generate a comprehensive list of exactly 20 distinct, realistic, previous-year {request.topic} aptitude/reasoning questions asked by {request.company_name} for a {request.program} candidate.
     Order the questions strictly by the number of times they have been asked, in descending order (most frequently asked first).
     Provide a highly detailed problem statement. 
     Provide the response strictly as a JSON object with the following schema. CRITICAL: Do NOT wrap the JSON in Markdown code blocks (e.g. ```json ... ```). Output RAW valid JSON:

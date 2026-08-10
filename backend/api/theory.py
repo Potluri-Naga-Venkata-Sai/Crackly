@@ -17,13 +17,7 @@ async def generate_theory_mcq(request: GenerateRequest):
     
     prompt = f"""
     You are an expert technical interviewer evaluating Computer Science fundamentals.
-    First, evaluate the company name: '{request.company_name}'. 
-    Validate strictly if this is a REAL, well-known tech or corporate company. If it is a person's name (like 'varshith', 'john'), a random word, a gibberish string, or fake, return exactly this JSON:
-    {{
-        "error": "Invalid company name. Please provide a real company."
-    }}
-    
-    HOWEVER, if it is a real company, you MUST generate exactly 20 distinct, highly realistic theoretical {request.topic} multiple-choice questions asked by {request.company_name}.
+    Assume '{request.company_name}' is a valid company name. You MUST generate exactly 20 distinct, highly realistic theoretical {request.topic} multiple-choice questions asked by {request.company_name}.
     If the topic is "Stream", tailor the theoretical questions specifically for a {request.program} role context.
     Topics can include Operating Systems, DBMS, Computer Networks, or OOPs depending on {request.topic}.
     Order the questions strictly by frequency (most frequently asked first).

@@ -9,6 +9,7 @@ import { ArrowLeft, Send, Loader2, Target, CheckCircle2, AlertCircle, Bookmark, 
 import { cn } from "@/lib/utils";
 import { logActivity, checkTrackCompletion } from "@/lib/activity-tracker";
 import { addBookmark, removeBookmark, isBookmarked } from "@/lib/bookmark-tracker";
+import { saveSubmissionLocallyAndToCloud } from "@/lib/supabase";
 
 export default function SystemPracticePage() {
   const router = useRouter();
@@ -53,7 +54,7 @@ export default function SystemPracticePage() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/evaluate", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/evaluate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
@@ -68,13 +69,26 @@ export default function SystemPracticePage() {
       const data = await res.json();
       setResult(data);
       
+      const submissions = JSON.parse(localStorage.getItem("system_submissions") || "[]");
+      const newSubmission = {
+        id: Date.now().toString(),
+        problemTitle: problem.title,
+        problemData: problem,
+        answer,
+        score: data.score,
+        feedback: data.feedback,
+        timestamp: new Date().toISOString()
+      };
+      
+      await saveSubmissionLocallyAndToCloud("system", newSubmission);
+      
       logActivity({
         module: "System Design",
         title: "Architecture Evaluated",
         score: `${data.score}/10`,
         description: `Designed architecture for ${problem.title}.`
       });
-        checkTrackCompletion("system", trackQuestions, submissions);
+        checkTrackCompletion("system", trackQuestions, [newSubmission, ...submissions]);
     } catch (err) {
       alert("Failed to evaluate architecture");
     } finally {

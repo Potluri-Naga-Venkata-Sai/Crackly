@@ -63,7 +63,7 @@ export default function DashboardPage() {
         }
         const userId = session?.user?.id || "anonymous";
 
-        const res = await fetch(`http://localhost:8000/api/challenge/progress/${userId}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/challenge/progress/${userId}`);
         if (res.ok) {
           const data = await res.json();
           setChallengeData(data);
@@ -146,7 +146,7 @@ export default function DashboardPage() {
     }
 
     try {
-      const res = await fetch("http://localhost:8000/api/chat/ask", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/chat/ask`, {
         method: "POST",
         body: formData,
       });
@@ -258,7 +258,7 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         
-        <Link href="/coding" className="block outline-none">
+        <Link prefetch={true} href="/coding" className="block outline-none">
           <div className="bg-card border border-border rounded-xl p-5 hover:bg-muted transition-colors cursor-pointer group h-full">
             <div className="bg-blue-500/10 p-2.5 rounded-lg w-fit mb-4 group-hover:bg-blue-500/20 transition-colors">
               <Code2 className="h-5 w-5 text-blue-500" strokeWidth={1.5} />
@@ -272,7 +272,7 @@ export default function DashboardPage() {
           </div>
         </Link>
 
-        <Link href="/aptitude" className="block outline-none">
+        <Link prefetch={true} href="/aptitude" className="block outline-none">
           <div className="bg-card border border-border rounded-xl p-5 hover:bg-muted transition-colors cursor-pointer group h-full">
             <div className="bg-emerald-500/10 p-2.5 rounded-lg w-fit mb-4 group-hover:bg-emerald-500/20 transition-colors">
               <LineChart className="h-5 w-5 text-emerald-500" strokeWidth={1.5} />
@@ -286,7 +286,7 @@ export default function DashboardPage() {
           </div>
         </Link>
 
-        <Link href="/mcq" className="block outline-none">
+        <Link prefetch={true} href="/mcq" className="block outline-none">
           <div className="bg-card border border-border rounded-xl p-5 hover:bg-muted transition-colors cursor-pointer group h-full">
             <div className="bg-purple-500/10 p-2.5 rounded-lg w-fit mb-4 group-hover:bg-purple-500/20 transition-colors">
               <ListChecks className="h-5 w-5 text-purple-500" strokeWidth={1.5} />
@@ -300,7 +300,7 @@ export default function DashboardPage() {
           </div>
         </Link>
 
-        <Link href="/mixed" className="block outline-none">
+        <Link prefetch={true} href="/mixed" className="block outline-none">
           <div className="bg-card border border-border rounded-xl p-5 hover:bg-muted transition-colors cursor-pointer group h-full">
             <div className="bg-cyan-500/10 p-2.5 rounded-lg w-fit mb-4 group-hover:bg-cyan-500/20 transition-colors">
               <Layers className="h-5 w-5 text-cyan-500" strokeWidth={1.5} />
@@ -314,7 +314,7 @@ export default function DashboardPage() {
           </div>
         </Link>
 
-        <Link href="/english" className="block outline-none">
+        <Link prefetch={true} href="/english" className="block outline-none">
           <div className="bg-card border border-border rounded-xl p-5 hover:bg-muted transition-colors cursor-pointer group h-full">
             <div className="bg-rose-500/10 p-2.5 rounded-lg w-fit mb-4 group-hover:bg-rose-500/20 transition-colors">
               <MessageCircle className="h-5 w-5 text-rose-500" strokeWidth={1.5} />
@@ -328,7 +328,7 @@ export default function DashboardPage() {
           </div>
         </Link>
 
-        <Link href="/theory" className="block outline-none">
+        <Link prefetch={true} href="/theory" className="block outline-none">
           <div className="bg-card border border-border rounded-xl p-5 hover:bg-muted transition-colors cursor-pointer group h-full">
             <div className="bg-zinc-500/10 p-2.5 rounded-lg w-fit mb-4 group-hover:bg-zinc-500/20 transition-colors">
               <BookOpen className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
@@ -342,7 +342,7 @@ export default function DashboardPage() {
           </div>
         </Link>
 
-        <Link href="/projects" className="block outline-none">
+        <Link prefetch={true} href="/projects" className="block outline-none">
           <div className="bg-card border border-border rounded-xl p-5 hover:bg-muted transition-colors cursor-pointer group h-full">
             <div className="bg-orange-500/10 p-2.5 rounded-lg w-fit mb-4 group-hover:bg-orange-500/20 transition-colors">
               <Briefcase className="h-5 w-5 text-orange-500" strokeWidth={1.5} />
@@ -356,7 +356,7 @@ export default function DashboardPage() {
           </div>
         </Link>
 
-        <Link href="/interview" className="block outline-none">
+        <Link prefetch={true} href="/interview" className="block outline-none">
           <div className="bg-card border border-border rounded-xl p-5 hover:bg-muted transition-colors cursor-pointer group h-full">
             <div className="bg-fuchsia-500/10 p-2.5 rounded-lg w-fit mb-4 group-hover:bg-fuchsia-500/20 transition-colors">
               <Mic className="h-5 w-5 text-fuchsia-500" strokeWidth={1.5} />
@@ -370,7 +370,7 @@ export default function DashboardPage() {
           </div>
         </Link>
 
-        <Link href="/system" className="block outline-none">
+        <Link prefetch={true} href="/system" className="block outline-none">
           <div className="bg-card border border-border rounded-xl p-5 hover:bg-muted transition-colors cursor-pointer group h-full">
             <div className="bg-emerald-500/10 p-2.5 rounded-lg w-fit mb-4 group-hover:bg-emerald-500/20 transition-colors">
               <Layers className="h-5 w-5 text-emerald-500" strokeWidth={1.5} />
@@ -384,7 +384,7 @@ export default function DashboardPage() {
           </div>
         </Link>
 
-        <Link href="/tools" className="block outline-none">
+        <Link prefetch={true} href="/tools" className="block outline-none">
           <div className="bg-card border border-border rounded-xl p-5 hover:bg-muted transition-colors cursor-pointer group h-full">
             <div className="bg-pink-500/10 p-2.5 rounded-lg w-fit mb-4 group-hover:bg-pink-500/20 transition-colors">
               <ListChecks className="h-5 w-5 text-pink-500" strokeWidth={1.5} />
@@ -398,7 +398,7 @@ export default function DashboardPage() {
           </div>
         </Link>
 
-        <Link href="/sql" className="block outline-none">
+        <Link prefetch={true} href="/sql" className="block outline-none">
           <div className="bg-card border border-border rounded-xl p-5 hover:bg-muted transition-colors cursor-pointer group h-full">
             <div className="bg-sky-500/10 p-2.5 rounded-lg w-fit mb-4 group-hover:bg-sky-500/20 transition-colors">
               <Database className="h-5 w-5 text-sky-500" strokeWidth={1.5} />
@@ -412,7 +412,7 @@ export default function DashboardPage() {
           </div>
         </Link>
 
-        <Link href="/company" className="block outline-none">
+        <Link prefetch={true} href="/company" className="block outline-none">
           <div className="bg-card border border-border rounded-xl p-5 hover:bg-muted transition-colors cursor-pointer group h-full">
             <div className="bg-orange-500/10 p-2.5 rounded-lg w-fit mb-4 group-hover:bg-orange-500/20 transition-colors">
               <Briefcase className="h-5 w-5 text-orange-500" strokeWidth={1.5} />

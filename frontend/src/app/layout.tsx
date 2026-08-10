@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AppLayoutWrapper } from "@/components/layout/app-layout-wrapper";
 import { ProgramProvider } from "@/context/ProgramContext";
+import ProgressBarProvider from "@/components/progress-bar-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -27,9 +28,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ProgramProvider>
-            <AppLayoutWrapper>
-              {children}
-            </AppLayoutWrapper>
+            <ProgressBarProvider>
+              <AppLayoutWrapper>
+                {children}
+              </AppLayoutWrapper>
+            </ProgressBarProvider>
           </ProgramProvider>
         </ThemeProvider>
       </body>

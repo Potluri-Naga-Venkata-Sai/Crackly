@@ -120,7 +120,7 @@ const JOB_POSTINGS = {
 };
 
 export default function AnnouncementsPage() {
-  const [activeTab, setActiveTab] = useState<"all" | "unread" | "important">("all");
+  const [activeTab, setActiveTab] = useState<string>("all");
   const { program } = useProgram();
   
   // Get jobs for current program, or an empty array
@@ -136,19 +136,22 @@ export default function AnnouncementsPage() {
         <div className="relative z-10 flex justify-between items-end">
           <div className="max-w-xl">
             {/* Badge */}
-            <div className="inline-flex items-center gap-1.5 bg-red-500/10 text-red-500 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase mb-6 border border-red-500/20">
-              <Lock className="w-3 h-3" />
-              Announcements
+            <div className="inline-flex items-center gap-1.5 bg-blue-500/10 text-blue-500 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase mb-6 border border-blue-500/20">
+              <Briefcase className="w-3 h-3" />
+              Jobs & Opportunities
             </div>
             
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3 tracking-tight">Stay in the loop</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3 tracking-tight">Find your next role</h1>
             <p className="text-muted-foreground text-sm mb-8 leading-relaxed">
-              Important updates, schedules, and news from your organization — all in one place.
+              Curated job postings and opportunities tailored to your selected program.
             </p>
 
             {/* Metrics */}
             <div className="flex gap-4">
-              <div className="flex items-center gap-4 bg-background border border-border rounded-xl px-5 py-4 min-w-[140px]">
+              <button 
+                onClick={() => setActiveTab("all")}
+                className={`flex items-center gap-4 bg-background border rounded-xl px-5 py-4 min-w-[140px] text-left transition-colors cursor-pointer hover:border-foreground/20 ${activeTab === "all" ? "border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.1)]" : "border-border"}`}
+              >
                 <div className="bg-muted p-2.5 rounded-lg shrink-0">
                   <Mail className="w-5 h-5 text-muted-foreground" strokeWidth={1.5} />
                 </div>
@@ -156,19 +159,27 @@ export default function AnnouncementsPage() {
                   <div className="text-xl font-bold text-foreground leading-none">{currentJobs.length}</div>
                   <div className="text-[10px] text-muted-foreground font-bold tracking-widest uppercase mt-1">Total Jobs</div>
                 </div>
-              </div>
+              </button>
 
-              <div className="flex items-center gap-4 bg-background border border-border rounded-xl px-5 py-4 min-w-[140px]">
-                <div className="bg-red-500/10 p-2.5 rounded-lg shrink-0">
-                  <Briefcase className="w-5 h-5 text-red-500" strokeWidth={1.5} />
+              <button 
+                onClick={() => setActiveTab("new-today")}
+                className={`flex items-center gap-4 bg-background border rounded-xl px-5 py-4 min-w-[140px] text-left transition-colors cursor-pointer hover:border-foreground/20 ${activeTab === "new-today" ? "border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.1)]" : "border-border"}`}
+              >
+                <div className="bg-emerald-500/10 p-2.5 rounded-lg shrink-0">
+                  <Briefcase className="w-5 h-5 text-emerald-500" strokeWidth={1.5} />
                 </div>
                 <div>
-                  <div className="text-xl font-bold text-red-500 leading-none">{currentJobs.length > 0 ? 1 : 0}</div>
+                  <div className="text-xl font-bold text-emerald-500 leading-none">
+                    {currentJobs.filter(j => j.postedAt.includes('hour') || j.postedAt.includes('minute') || j.postedAt.includes('Just')).length}
+                  </div>
                   <div className="text-[10px] text-muted-foreground font-bold tracking-widest uppercase mt-1">New Today</div>
                 </div>
-              </div>
+              </button>
 
-              <div className="flex items-center gap-4 bg-background border border-border rounded-xl px-5 py-4 min-w-[140px]">
+              <button 
+                onClick={() => setActiveTab("expiring")}
+                className={`flex items-center gap-4 bg-background border rounded-xl px-5 py-4 min-w-[140px] text-left transition-colors cursor-pointer hover:border-foreground/20 ${activeTab === "expiring" ? "border-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.1)]" : "border-border"}`}
+              >
                 <div className="bg-orange-500/10 p-2.5 rounded-lg shrink-0">
                   <Clock className="w-5 h-5 text-orange-500" strokeWidth={1.5} />
                 </div>
@@ -176,7 +187,7 @@ export default function AnnouncementsPage() {
                   <div className="text-xl font-bold text-orange-500 leading-none">0</div>
                   <div className="text-[10px] text-muted-foreground font-bold tracking-widest uppercase mt-1">Expiring Soon</div>
                 </div>
-              </div>
+              </button>
             </div>
           </div>
 
@@ -188,10 +199,10 @@ export default function AnnouncementsPage() {
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
               </div>
-              <div className="w-32 h-32 border-2 border-muted rounded-2xl flex flex-col justify-center px-6 gap-3">
-                <div className="w-3/4 h-2 bg-muted rounded-full" />
-                <div className="w-full h-2 bg-muted rounded-full" />
-                <div className="w-1/2 h-2 bg-muted rounded-full" />
+              <div className="w-32 h-32 border-2 border-muted/30 rounded-2xl flex flex-col justify-center px-6 gap-3 bg-white/5 backdrop-blur-sm">
+                <div className="w-3/4 h-2 bg-white/20 rounded-full" />
+                <div className="w-full h-2 bg-white/20 rounded-full" />
+                <div className="w-1/2 h-2 bg-white/20 rounded-full" />
               </div>
             </div>
           </div>
@@ -206,13 +217,13 @@ export default function AnnouncementsPage() {
           onClick={() => setActiveTab("all")}
           className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
             activeTab === "all" 
-              ? "bg-red-500/10 text-red-500 border-red-500/20" 
+              ? "bg-blue-500/10 text-blue-500 border-blue-500/20" 
               : "bg-transparent text-muted-foreground border-border hover:border-foreground/20"
           }`}
         >
           All
-          <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${activeTab === "all" ? "bg-red-500/20" : "bg-muted"}`}>
-            0
+          <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${activeTab === "all" ? "bg-blue-500/20" : "bg-muted"}`}>
+            {currentJobs.length}
           </span>
         </button>
 
@@ -220,13 +231,13 @@ export default function AnnouncementsPage() {
           onClick={() => setActiveTab("unread")}
           className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
             activeTab === "unread" 
-              ? "bg-red-500/10 text-red-500 border-red-500/20" 
+              ? "bg-blue-500/10 text-blue-500 border-blue-500/20" 
               : "bg-transparent text-muted-foreground border-border hover:border-foreground/20"
           }`}
         >
-          Unread
-          <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${activeTab === "unread" ? "bg-red-500/20" : "bg-muted"}`}>
-            0
+          Full-Time
+          <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${activeTab === "unread" ? "bg-blue-500/20" : "bg-muted"}`}>
+            {currentJobs.filter(j => j.type === "Full-time").length}
           </span>
         </button>
 
@@ -234,13 +245,13 @@ export default function AnnouncementsPage() {
           onClick={() => setActiveTab("important")}
           className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
             activeTab === "important" 
-              ? "bg-red-500/10 text-red-500 border-red-500/20" 
+              ? "bg-blue-500/10 text-blue-500 border-blue-500/20" 
               : "bg-transparent text-muted-foreground border-border hover:border-foreground/20"
           }`}
         >
-          Important
-          <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${activeTab === "important" ? "bg-red-500/20" : "bg-muted"}`}>
-            0
+          Remote
+          <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${activeTab === "important" ? "bg-blue-500/20" : "bg-muted"}`}>
+            {currentJobs.filter(j => j.location.toLowerCase().includes("remote")).length}
           </span>
         </button>
       </div>
@@ -248,7 +259,14 @@ export default function AnnouncementsPage() {
       {/* Job Postings or Empty State */}
       {currentJobs.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {currentJobs.map((job) => (
+          {currentJobs.filter(j => {
+            if (activeTab === "all") return true;
+            if (activeTab === "unread") return j.type === "Full-time";
+            if (activeTab === "important") return j.location.toLowerCase().includes("remote");
+            if (activeTab === "new-today") return j.postedAt.includes('hour') || j.postedAt.includes('minute') || j.postedAt.includes('Just');
+            if (activeTab === "expiring") return false; // hardcoded 0 for now
+            return true;
+          }).map((job) => (
             <Link 
               key={job.id} 
               href={job.link}
