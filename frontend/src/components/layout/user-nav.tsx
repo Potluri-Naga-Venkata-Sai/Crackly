@@ -73,7 +73,7 @@ export function UserNav() {
         <DropdownMenuGroup>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">InterviewAI User</p>
+              <p className="text-sm font-medium leading-none">Crackly User</p>
               <p className="text-xs leading-none text-muted-foreground">
                 {userEmail}
               </p>

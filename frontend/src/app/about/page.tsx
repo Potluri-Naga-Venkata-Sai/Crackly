@@ -19,7 +19,7 @@ export default function AboutPage() {
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="mr-1">
                   <path d="M4 12L12 4L20 12M12 4V20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                INTERVIEW AI
+                CRACKLY
               </span>
               <span className="text-[10px] font-lexend font-bold text-zinc-500 uppercase tracking-widest ml-7">Learn skills Get placed</span>
             </div>
@@ -43,7 +43,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="pt-40 pb-24 md:pt-48 md:pb-32 px-6 bg-zinc-50/50 border-b border-zinc-100">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-[#f03b22] font-lexend font-bold text-sm tracking-wide uppercase mb-6">About Interview AI</p>
+          <p className="text-[#f03b22] font-lexend font-bold text-sm tracking-wide uppercase mb-6">About Crackly</p>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-outfit font-extrabold text-[#111] mb-8 leading-tight tracking-tight">
             Empowering Candidates with <br className="hidden md:block" />AI-Driven Interview Prep
           </h1>
@@ -66,7 +66,7 @@ export default function AboutPage() {
             </h2>
             <div className="space-y-6 font-lexend text-zinc-600 text-lg leading-relaxed">
               <p>
-                Interview AI is a modern platform committed to empowering students and professionals with real-time feedback, simulated interviews, and career-ready expertise.
+                Crackly is a modern platform committed to empowering students and professionals with real-time feedback, simulated interviews, and career-ready expertise.
               </p>
               <p>
                 In today's competitive job market, standard preparation isn't enough. We emphasize AI-driven mock interviews that mirror real workplace technical rounds, ensuring our learners are confident from day one.
@@ -185,7 +185,7 @@ export default function AboutPage() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="mr-2 text-[#f03b22]">
                 <path d="M4 12L12 4L20 12M12 4V20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              INTERVIEW AI
+              CRACKLY
             </span>
             <span className="text-[10px] font-lexend font-bold text-zinc-400 uppercase tracking-widest md:ml-8">Learn skills Get placed</span>
           </div>

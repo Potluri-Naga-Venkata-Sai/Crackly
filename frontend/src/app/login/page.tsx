@@ -79,7 +79,7 @@ export default function LoginPage() {
             <div className="bg-red-600 p-1.5 rounded flex items-center justify-center">
               <Code2 className="h-4 w-4 text-white" />
             </div>
-            <span className="font-semibold text-zinc-300 text-sm tracking-wide">InterviewAI</span>
+            <span className="font-semibold text-zinc-300 text-sm tracking-wide">Crackly</span>
           </div>
 
           <h1 className="text-5xl font-bold text-white leading-tight mb-2">

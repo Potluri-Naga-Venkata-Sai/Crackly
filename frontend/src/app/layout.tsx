@@ -9,7 +9,7 @@ import ProgressBarProvider from "@/components/progress-bar-provider";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "InterviewAI | Practice Like It's Your Real Interview",
+  title: "Crackly | Practice Like It's Your Real Interview",
   description: "AI-powered technical interview preparation platform.",
 };
 

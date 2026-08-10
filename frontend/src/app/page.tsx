@@ -134,7 +134,7 @@ export default function LandingPage() {
             <div className="flex flex-col">
               <span className="text-2xl font-outfit font-extrabold text-blue-500 tracking-tight flex items-center">
                 <BrainCircuit className="w-6 h-6 mr-2 text-blue-500" />
-                INTERVIEW AI
+                CRACKLY
               </span>
               <span className="text-[10px] font-lexend font-bold text-muted-foreground uppercase tracking-widest ml-8">Learn skills Get placed</span>
             </div>
@@ -270,7 +270,7 @@ export default function LandingPage() {
             </h2>
             <div className="space-y-6 font-lexend text-muted-foreground text-lg leading-relaxed mb-8">
               <p>
-                Interview AI is a modern platform committed to empowering students and professionals with real-time feedback, simulated interviews, and career-ready expertise.
+                Crackly is a modern platform committed to empowering students and professionals with real-time feedback, simulated interviews, and career-ready expertise.
               </p>
               <p>
                 In today's competitive job market, standard preparation isn't enough. We emphasize AI-driven mock interviews that mirror real workplace technical rounds, ensuring our learners are confident from day one.
@@ -361,7 +361,7 @@ export default function LandingPage() {
       
       {/* Footer minimal */}
       <footer className="border-t border-border bg-background py-12 text-center mt-auto">
-        <p className="text-muted-foreground text-sm font-lexend font-medium">© 2026 InterviewAI. All rights reserved.</p>
+        <p className="text-muted-foreground text-sm font-lexend font-medium">© 2026 Crackly. All rights reserved.</p>
       </footer>
     </div>
   );

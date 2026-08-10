@@ -18,7 +18,7 @@ export default function TermsOfServicePage() {
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="mr-1">
                   <path d="M4 12L12 4L20 12M12 4V20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                INTERVIEW AI
+                CRACKLY
               </span>
               <span className="text-[10px] font-lexend font-bold text-zinc-500 uppercase tracking-widest ml-7">Learn skills Get placed</span>
             </div>
@@ -44,9 +44,9 @@ export default function TermsOfServicePage() {
         <div className="prose prose-zinc font-lexend text-zinc-600 space-y-6">
           <p>Last updated: {new Date().toLocaleDateString()}</p>
           <h2 className="text-2xl font-bold text-[#111] mt-8 mb-4">1. Acceptance of Terms</h2>
-          <p>By accessing and using Interview AI, you accept and agree to be bound by the terms and provision of this agreement.</p>
+          <p>By accessing and using Crackly, you accept and agree to be bound by the terms and provision of this agreement.</p>
           <h2 className="text-2xl font-bold text-[#111] mt-8 mb-4">2. Description of Service</h2>
-          <p>Interview AI provides AI-powered mock interviews, coding assessments, and related career preparation tools.</p>
+          <p>Crackly provides AI-powered mock interviews, coding assessments, and related career preparation tools.</p>
           <h2 className="text-2xl font-bold text-[#111] mt-8 mb-4">3. User Conduct</h2>
           <p>You agree not to use the service for any unlawful purpose or in any way that interrupts, damages, or impairs the service.</p>
           <p className="mt-12 text-sm">For detailed inquiries, please contact us via the Contact page.</p>
@@ -61,7 +61,7 @@ export default function TermsOfServicePage() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="mr-2 text-[#f03b22]">
                 <path d="M4 12L12 4L20 12M12 4V20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              INTERVIEW AI
+              CRACKLY
             </span>
             <span className="text-[10px] font-lexend font-bold text-zinc-400 uppercase tracking-widest md:ml-8">Learn skills Get placed</span>
           </div>

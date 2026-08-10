@@ -23,8 +23,8 @@ from api.interview import router as interview_router
 from api.chat import router as chat_router
 
 app = FastAPI(
-    title="InterviewAI API",
-    description="Backend API for the InterviewAI Platform",
+    title="Crackly API",
+    description="Backend API for the Crackly Platform",
     version="1.0.0"
 )
 
@@ -56,7 +56,7 @@ app.include_router(chat_router)
 
 @app.get("/")
 def read_root():
-    return {"status": "InterviewAI API is running"}
+    return {"status": "Crackly API is running"}
 
 @app.get("/health")
 def health_check():

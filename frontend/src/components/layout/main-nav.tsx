@@ -9,7 +9,7 @@ export function MainNav() {
           <Sparkles className="h-5 w-5 text-white" />
         </div>
         <span className="hidden font-bold sm:inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-400 text-lg">
-          InterviewAI
+          Crackly
         </span>
       </Link>
       <nav className="flex items-center space-x-6 text-sm font-medium">

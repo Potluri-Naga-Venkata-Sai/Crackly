@@ -100,7 +100,7 @@ export function Sidebar() {
             <Sparkles className="h-4 w-4 text-white" />
           </div>
           {!isCollapsed && (
-            <span className="font-outfit font-extrabold text-[15px] tracking-tight">INTERVIEW AI</span>
+            <span className="font-outfit font-extrabold text-[15px] tracking-tight">CRACKLY</span>
           )}
         </Link>
       </div>

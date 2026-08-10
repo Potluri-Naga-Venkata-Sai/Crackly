@@ -40,7 +40,7 @@ export default function ProgramsPage() {
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="mr-1">
                   <path d="M4 12L12 4L20 12M12 4V20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                INTERVIEW AI
+                CRACKLY
               </span>
               <span className="text-[10px] font-lexend font-bold text-zinc-500 uppercase tracking-widest ml-7">Learn skills Get placed</span>
             </div>
@@ -78,7 +78,7 @@ export default function ProgramsPage() {
       <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-[#f03b22] font-lexend font-bold text-sm tracking-wide uppercase mb-3">Why candidates trust Interview AI</p>
+            <p className="text-[#f03b22] font-lexend font-bold text-sm tracking-wide uppercase mb-3">Why candidates trust Crackly</p>
             <h2 className="text-3xl md:text-4xl font-outfit font-bold text-[#111] tracking-tight">
               Training built for outcomes, not just certificates
             </h2>
@@ -300,7 +300,7 @@ export default function ProgramsPage() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="mr-2 text-[#f03b22]">
                 <path d="M4 12L12 4L20 12M12 4V20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              INTERVIEW AI
+              CRACKLY
             </span>
             <span className="text-[10px] font-lexend font-bold text-zinc-400 uppercase tracking-widest md:ml-8">Learn skills Get placed</span>
           </div>

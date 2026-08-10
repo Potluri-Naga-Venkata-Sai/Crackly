@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="mr-1">
                   <path d="M4 12L12 4L20 12M12 4V20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                INTERVIEW AI
+                CRACKLY
               </span>
               <span className="text-[10px] font-lexend font-bold text-zinc-500 uppercase tracking-widest ml-7">Learn skills Get placed</span>
             </div>
@@ -61,7 +61,7 @@ export default function PrivacyPolicyPage() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="mr-2 text-[#f03b22]">
                 <path d="M4 12L12 4L20 12M12 4V20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              INTERVIEW AI
+              CRACKLY
             </span>
             <span className="text-[10px] font-lexend font-bold text-zinc-400 uppercase tracking-widest md:ml-8">Learn skills Get placed</span>
           </div>
