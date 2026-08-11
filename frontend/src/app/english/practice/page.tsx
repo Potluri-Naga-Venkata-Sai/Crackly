@@ -128,7 +128,7 @@ export default function EnglishPracticePage() {
     <div className="flex flex-col h-[calc(100vh-4rem)] p-4 gap-4 bg-muted text-foreground">
       <div className="flex justify-between items-center px-2 shrink-0">
         <div className="flex items-center gap-4">
-          <Link href="/mcq" className="text-muted-foreground hover:text-foreground mr-2">
+          <Link href="/english" className="text-muted-foreground hover:text-foreground mr-2">
             <ArrowLeft className="h-5 w-5" />
           </Link>
           <h2 className="text-xl font-bold tracking-tight text-foreground">{problem.title}</h2>
