@@ -27,6 +27,7 @@ export default function PrivacyPolicyPage() {
             <Link href="/" className="hover:text-red-600 transition-colors">Home</Link>
             <Link href="/programs" className="hover:text-red-600 transition-colors">Programs</Link>
             <Link href="/about" className="hover:text-red-600 transition-colors">About us</Link>
+            <Link href="/#contact" className="hover:text-red-600 transition-colors">Contact us</Link>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/login" className="px-5 py-2.5 text-[15px] font-lexend font-medium text-zinc-700 hover:text-black border border-zinc-200 rounded-md transition-colors hidden sm:block">

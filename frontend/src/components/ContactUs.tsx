@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export function ContactUs() {
   return (
-    <section className="py-24 bg-background border-t border-border/50 relative overflow-hidden">
+    <section id="contact" className="py-24 bg-background border-t border-border/50 relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-full max-w-3xl h-64 bg-blue-500/10 blur-[100px] pointer-events-none rounded-full" />
       

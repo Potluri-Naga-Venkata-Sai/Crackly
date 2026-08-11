@@ -144,6 +144,7 @@ export default function LandingPage() {
             <Link href="/" className="text-foreground font-semibold">Home</Link>
             <Link href="#programs" className="hover:text-foreground transition-colors">Programs</Link>
             <Link href="#about" className="hover:text-foreground transition-colors">About us</Link>
+            <Link href="#contact" className="hover:text-foreground transition-colors">Contact us</Link>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/login" className="px-5 py-2.5 text-[15px] font-lexend font-medium text-muted-foreground hover:text-foreground border border-border rounded-md transition-colors bg-card/50 hover:bg-card">
