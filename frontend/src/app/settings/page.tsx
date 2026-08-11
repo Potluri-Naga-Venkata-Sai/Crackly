@@ -21,10 +21,15 @@ export default function SettingsPage() {
   useEffect(() => {
     const fetchUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user?.email) {
-        setEmail(session.user.email);
-        const name = session.user.email.split("@")[0];
-        setUsername(name.charAt(0).toUpperCase() + name.slice(1));
+      if (session?.user) {
+        setEmail(session.user.email || "");
+        const displayName = session.user.user_metadata?.display_name;
+        if (displayName) {
+          setUsername(displayName);
+        } else if (session.user.email) {
+          const name = session.user.email.split("@")[0];
+          setUsername(name.charAt(0).toUpperCase() + name.slice(1));
+        }
       }
     };
     fetchUser();
@@ -35,15 +40,15 @@ export default function SettingsPage() {
     setLoading(true);
     setMessage(null);
     try {
-      // For now, since username is derived from email or stored in a separate table,
-      // updating profile requires updating the users table in our DB.
-      // Assuming a backend route exists or just simulating for the UI
-      setTimeout(() => {
-        setMessage({ type: "success", text: "Profile updated successfully!" });
-        setLoading(false);
-      }, 1000);
+      const { error } = await supabase.auth.updateUser({
+        data: { display_name: username }
+      });
+      if (error) throw error;
+      
+      setMessage({ type: "success", text: "Profile updated successfully!" });
     } catch (error: any) {
       setMessage({ type: "error", text: error.message || "Failed to update profile." });
+    } finally {
       setLoading(false);
     }
   };

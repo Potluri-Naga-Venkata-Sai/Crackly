@@ -61,7 +61,7 @@ export default function EnglishTestsPage() {
       emptyStateIcon={<Quote className="h-8 w-8 text-indigo-500" strokeWidth={1.5} />}
       emptyStateTitle="No English tests assigned"
       emptyStateDescription="When you generate a custom interview track, they will show up here with search, filters, and progress tracking."
-      getQuestionRoute={() => "/mcq/practice"} // English routes to MCQ practice currently in legacy app
+      getQuestionRoute={() => "/english/practice"}
       renderQuestionMetadata={(q) => (
         <span className="text-xs text-muted-foreground flex items-center gap-1.5">
           {q.topic === "Grammar" && <BookOpen className="w-3.5 h-3.5" />}

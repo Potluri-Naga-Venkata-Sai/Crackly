@@ -27,17 +27,27 @@ export function TopHeader() {
   useEffect(() => {
     const fetchUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user?.email) {
-        const name = session.user.email.split("@")[0];
-        setUserName(name.charAt(0).toUpperCase() + name.slice(1));
+      if (session?.user) {
+        const displayName = session?.user?.user_metadata?.display_name;
+        if (displayName) {
+          setUserName(displayName);
+        } else if (session.user.email) {
+          const name = session.user.email.split("@")[0];
+          setUserName(name.charAt(0).toUpperCase() + name.slice(1));
+        }
       }
     };
     fetchUser();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session?.user?.email) {
-        const name = session.user.email.split("@")[0];
-        setUserName(name.charAt(0).toUpperCase() + name.slice(1));
+      if (session?.user) {
+        const displayName = session?.user?.user_metadata?.display_name;
+        if (displayName) {
+          setUserName(displayName);
+        } else if (session.user.email) {
+          const name = session.user.email.split("@")[0];
+          setUserName(name.charAt(0).toUpperCase() + name.slice(1));
+        }
       } else {
         setUserName("User");
       }
