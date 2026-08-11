@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Code2, Database, Layers, BrainCircuit, LineChart, Brain } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ContactUs } from "@/components/ContactUs";
 
 export default function LandingPage() {
   const router = useRouter();
@@ -358,6 +359,8 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+      
+      <ContactUs />
       
       {/* Footer minimal */}
       <footer className="border-t border-border bg-background py-12 text-center mt-auto">
