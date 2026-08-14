@@ -133,7 +133,7 @@ export default function CodingPracticePage() {
             problemTitle: problem.title,
             problemData: problem,
             language,
-            code: finalCodeToSave,
+            code,
             score: data.is_correct ? 100 : 0,
             timestamp: new Date().toISOString()
         };

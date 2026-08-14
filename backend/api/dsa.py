@@ -60,6 +60,11 @@ PISTON_LANGUAGES = {
 
 @router.post("/generate")
 async def generate_company_question(request: GenerateRequest):
+    from api.llm_client import validate_company
+    if hasattr(request, 'company_name') and request.company_name:
+        if not validate_company(request.company_name):
+            raise HTTPException(status_code=400, detail="Invalid company name. Please enter a valid company name.")
+
     
     if request.topic == "Stream":
         topic_instruction = f"generate a comprehensive list of exactly 5 distinct, realistic, previous-year coding interview questions asked by {request.company_name} specifically for a {request.program} candidate."

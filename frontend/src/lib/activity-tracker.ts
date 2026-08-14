@@ -1,6 +1,6 @@
 export interface ActivityLog {
   id: string;
-  module: "Mock Interview" | "Aptitude" | "Resume Prep" | "System Design" | "Coding" | "Theory" | "Projects" | "Company Fit";
+  module: string;
   title: string;
   timestamp: string; // ISO string
   score?: string;

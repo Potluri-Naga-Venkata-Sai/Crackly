@@ -1,6 +1,6 @@
 export interface Bookmark {
   id: string; // The problem title or unique identifier
-  module: "Coding" | "System Design" | "Company Fit" | "Aptitude" | "Theory";
+  module: string;
   title: string;
   timestamp: string;
   difficulty?: string;

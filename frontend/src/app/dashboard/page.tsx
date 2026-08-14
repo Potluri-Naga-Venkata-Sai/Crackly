@@ -78,7 +78,7 @@ export default function DashboardPage() {
     setBookmarks(getBookmarks());
 
     const updatePendingCounts = () => {
-      const getCount = (key) => {
+      const getCount = (key: string) => {
         return parseInt(localStorage.getItem(key) || "0");
       };
       

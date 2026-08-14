@@ -14,6 +14,11 @@ class GenerateRequest(BaseModel):
 
 @router.post("/generate")
 async def generate_tools_mcq(request: GenerateRequest):
+    from api.llm_client import validate_company
+    if hasattr(request, 'company_name') and request.company_name:
+        if not validate_company(request.company_name):
+            raise HTTPException(status_code=400, detail="Invalid company name. Please enter a valid company name.")
+
     
     prompt = f"""
     You are an expert DevOps engineer and technical interviewer.

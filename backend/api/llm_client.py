@@ -103,3 +103,17 @@ def generate_content(prompt: str, system_prompt: str = "", json_mode: bool = Tru
             last_error = e
 
     raise Exception(f"All LLM providers (Groq, OpenAI, Gemini) failed to generate content. Last error: {last_error}")
+
+def validate_company(company_name: str) -> bool:
+    """Uses LLM to quickly validate if a company name is likely real or just random gibberish."""
+    if not company_name or len(company_name.strip()) < 2:
+        return False
+        
+    prompt = f"Is '{company_name}' a real, known company or at least a plausible real company name? (If it's random keyboard mash like 'sskkkddddd', return false). Reply STRICTLY with JSON: {{\"valid\": true}} or {{\"valid\": false}}."
+    try:
+        raw_content = generate_content(prompt, system_prompt="You are a helpful assistant.", json_mode=True)
+        data = json.loads(raw_content)
+        return data.get("valid", True)
+    except Exception as e:
+        logger.warning(f"Company validation check failed: {e}")
+        return True  # default to true if the check fails so we don't block users unnecessarily

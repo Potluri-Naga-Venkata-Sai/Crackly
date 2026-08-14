@@ -52,6 +52,11 @@ PISTON_LANGUAGES = {
 
 @router.post("/generate")
 async def generate_company_question(request: GenerateRequest):
+    from api.llm_client import validate_company
+    if hasattr(request, 'company_name') and request.company_name:
+        if not validate_company(request.company_name):
+            raise HTTPException(status_code=400, detail="Invalid company name. Please enter a valid company name.")
+
     
     topic_instruction = f"generate a comprehensive list of exactly 5 distinct, realistic, previous-year DATABASE QUERY interview questions (e.g. Find Nth Highest Salary, Department Top Three Salaries) asked by {request.company_name}. Make the problem description EXTREMELY ELABORATIVE and detailed, including the exact schema (table names, columns, and types) in a clear manner."
     format_instruction = "CRITICAL: Since this is SQL, you MUST format the 'input' in the examples as clear text-based Markdown tables representing the database tables. HOWEVER, the 'output' in the examples MUST be plain text EXACTLY matching the raw database engine output without any markdown table formatting (e.g. just the header name and the values below it, like 'salary\\n20000'). If the result is null/empty, the 'output' string should just be empty. Do not use Markdown tables for Output."
