@@ -1,9 +1,31 @@
 import { createBrowserClient } from '@supabase/ssr'
 
+import { parse, serialize } from 'cookie'
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
-export const supabase = createBrowserClient(supabaseUrl, supabaseKey)
+function isBrowser() {
+  return typeof window !== 'undefined'
+}
+
+export const supabase = createBrowserClient(supabaseUrl, supabaseKey, {
+  cookies: {
+    getAll() {
+      if (!isBrowser()) return []
+      const parsed = parse(document.cookie)
+      return Object.entries(parsed).map(([name, value]) => ({ name, value }))
+    },
+    setAll(cookiesToSet) {
+      if (!isBrowser()) return
+      cookiesToSet.forEach(({ name, value, options }) => {
+        delete options.maxAge
+        delete options.expires
+        document.cookie = serialize(name, value, options)
+      })
+    },
+  },
+})
 
 export async function saveSubmissionLocallyAndToCloud(moduleKey: string, submission: any) {
   // Save locally first
