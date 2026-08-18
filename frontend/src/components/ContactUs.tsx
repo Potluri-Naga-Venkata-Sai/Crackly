@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import { Github, Twitter, Linkedin, Globe } from "lucide-react";
 
 export function ContactUs() {
   return (
@@ -53,18 +52,15 @@ export function ContactUs() {
                 {/* Social Icons */}
                 <div className="flex items-center justify-center md:justify-start gap-3 mb-8">
                   {[
-                    { href: "https://github.com/Potluri-Naga-Venkata-Sai", icon: Github, alt: "GitHub" },
-                    { href: "https://x.com/Pnvs0954", icon: Twitter, alt: "X" },
-                    { href: "https://www.linkedin.com/in/naga-venkata-sai-potluri/", icon: Linkedin, alt: "LinkedIn" },
-                    { href: "https://nagavenkatasai.me/", icon: Globe, alt: "Website" }
-                  ].map((social, i) => {
-                    const Icon = social.icon;
-                    return (
-                      <Link key={i} href={social.href} target="_blank" className="w-10 h-10 rounded-xl bg-secondary/50 border border-border flex items-center justify-center hover:bg-secondary hover:border-blue-500/50 hover:scale-105 transition-all duration-300">
-                        <Icon className="w-5 h-5 opacity-80" />
-                      </Link>
-                    );
-                  })}
+                    { href: "https://github.com/Potluri-Naga-Venkata-Sai", icon: "github.svg", alt: "GitHub" },
+                    { href: "https://x.com/Pnvs0954", icon: "x.svg", alt: "X" },
+                    { href: "https://www.linkedin.com/in/naga-venkata-sai-potluri/", icon: "linkedin.svg", alt: "LinkedIn" },
+                    { href: "https://nagavenkatasai.me/", icon: "globe.svg", alt: "Website" }
+                  ].map((social, i) => (
+                    <Link key={i} href={social.href} target="_blank" className="w-10 h-10 rounded-xl bg-secondary/50 border border-border flex items-center justify-center hover:bg-secondary hover:border-blue-500/50 hover:scale-105 transition-all duration-300">
+                      <img src={`/${social.icon}`} alt={social.alt} className="w-5 h-5 opacity-80 invert" />
+                    </Link>
+                  ))}
                 </div>
 
                 <div className="w-full h-px bg-border/50 mb-8"></div>
