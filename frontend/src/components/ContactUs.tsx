@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { Github, Twitter, Linkedin, Globe } from "lucide-react";
 
 export function ContactUs() {
   return (
@@ -30,7 +31,7 @@ export function ContactUs() {
                 <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-blue-500/20 p-1 relative">
                   <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-md animate-pulse"></div>
                   <img 
-                    src="https://raw.githubusercontent.com/Potluri-Naga-Venkata-Sai/Email-Signature/main/assets/profile.jpeg" 
+                    src="/profile.jpeg" 
                     alt="Naga Venkata Sai Potluri" 
                     className="w-full h-full rounded-full object-cover object-center relative z-10"
                   />
@@ -52,15 +53,18 @@ export function ContactUs() {
                 {/* Social Icons */}
                 <div className="flex items-center justify-center md:justify-start gap-3 mb-8">
                   {[
-                    { href: "https://github.com/Potluri-Naga-Venkata-Sai", icon: "github.svg", alt: "GitHub" },
-                    { href: "https://x.com/Pnvs0954", icon: "x.svg", alt: "X" },
-                    { href: "https://www.linkedin.com/in/naga-venkata-sai-potluri/", icon: "linkedin.svg", alt: "LinkedIn" },
-                    { href: "https://nagavenkatasai.me/", icon: "globe.svg", alt: "Website" }
-                  ].map((social, i) => (
-                    <Link key={i} href={social.href} target="_blank" className="w-10 h-10 rounded-xl bg-secondary/50 border border-border flex items-center justify-center hover:bg-secondary hover:border-blue-500/50 hover:scale-105 transition-all duration-300">
-                      <img src={`https://raw.githubusercontent.com/Potluri-Naga-Venkata-Sai/Email-Signature/main/assets/${social.icon}`} alt={social.alt} className="w-5 h-5 opacity-80 invert" />
-                    </Link>
-                  ))}
+                    { href: "https://github.com/Potluri-Naga-Venkata-Sai", icon: Github, alt: "GitHub" },
+                    { href: "https://x.com/Pnvs0954", icon: Twitter, alt: "X" },
+                    { href: "https://www.linkedin.com/in/naga-venkata-sai-potluri/", icon: Linkedin, alt: "LinkedIn" },
+                    { href: "https://nagavenkatasai.me/", icon: Globe, alt: "Website" }
+                  ].map((social, i) => {
+                    const Icon = social.icon;
+                    return (
+                      <Link key={i} href={social.href} target="_blank" className="w-10 h-10 rounded-xl bg-secondary/50 border border-border flex items-center justify-center hover:bg-secondary hover:border-blue-500/50 hover:scale-105 transition-all duration-300">
+                        <Icon className="w-5 h-5 opacity-80" />
+                      </Link>
+                    );
+                  })}
                 </div>
 
                 <div className="w-full h-px bg-border/50 mb-8"></div>
