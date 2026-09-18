@@ -16,6 +16,7 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const router = useRouter();
 
@@ -26,6 +27,17 @@ export default function LoginPage() {
     setSuccessMsg(null);
 
     try {
+      if (isForgotPassword) {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+        
+        setSuccessMsg("Check your email for the password reset link.");
+        setLoading(false);
+        return;
+      }
+
       let authResponse;
       if (isSignUp) {
         authResponse = await supabase.auth.signUp({
@@ -138,10 +150,10 @@ export default function LoginPage() {
         <div className="w-full max-w-sm bg-[#111111] border border-border/50 rounded-2xl p-8 shadow-2xl">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-white mb-2">
-              {isSignUp ? "Create an account" : "Welcome back"}
+              {isForgotPassword ? "Reset Password" : isSignUp ? "Create an account" : "Welcome back"}
             </h2>
             <p className="text-zinc-400 text-sm">
-              {isSignUp ? "Sign up to start tracking your progress" : "Sign in to continue to your dashboard"}
+              {isForgotPassword ? "Enter your email to receive a password reset link" : isSignUp ? "Sign up to start tracking your progress" : "Sign in to continue to your dashboard"}
             </p>
           </div>
 
@@ -170,41 +182,59 @@ export default function LoginPage() {
               />
             </div>
             
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-zinc-300 text-xs font-semibold">Password</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-[#18181b] border-border/50 h-11 text-zinc-200 placeholder:text-zinc-600 focus-visible:ring-red-600 focus-visible:ring-offset-0 focus-visible:border-red-600 transition-colors rounded-lg pr-10"
-                />
-                <button 
-                  type="button" 
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
+            {!isForgotPassword && (
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-zinc-300 text-xs font-semibold">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="bg-[#18181b] border-border/50 h-11 text-zinc-200 placeholder:text-zinc-600 focus-visible:ring-red-600 focus-visible:ring-offset-0 focus-visible:border-red-600 transition-colors rounded-lg pr-10"
+                  />
+                  <button 
+                    type="button" 
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+                <div className="flex justify-between pt-1">
+                  <button 
+                    type="button"
+                    onClick={() => setIsSignUp(!isSignUp)}
+                    className="text-xs text-zinc-400 hover:text-white transition-colors"
+                  >
+                    {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
+                  </button>
+                  {!isSignUp && (
+                    <button 
+                      type="button"
+                      onClick={() => setIsForgotPassword(true)}
+                      className="text-xs text-red-500 hover:text-red-400 font-medium"
+                    >
+                      Forgot password?
+                    </button>
+                  )}
+                </div>
               </div>
-              <div className="flex justify-between pt-1">
+            )}
+
+            {isForgotPassword && (
+              <div className="flex justify-end pt-1">
                 <button 
                   type="button"
-                  onClick={() => setIsSignUp(!isSignUp)}
+                  onClick={() => setIsForgotPassword(false)}
                   className="text-xs text-zinc-400 hover:text-white transition-colors"
                 >
-                  {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
+                  Back to login
                 </button>
-                {!isSignUp && (
-                  <Link href="#" className="text-xs text-red-500 hover:text-red-400 font-medium">
-                    Forgot password?
-                  </Link>
-                )}
               </div>
-            </div>
+            )}
             
             <Button 
               type="submit"
@@ -212,7 +242,7 @@ export default function LoginPage() {
               disabled={loading}
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {isSignUp ? "Sign up" : "Sign in"}
+              {isForgotPassword ? "Send reset link" : isSignUp ? "Sign up" : "Sign in"}
             </Button>
           </form>
         </div>
